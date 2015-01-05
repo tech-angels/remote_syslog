@@ -78,7 +78,6 @@ module RemoteSyslog
     end
 
     def watch_file(file)
-      File.open('/tmp/out.txt', "w") { |f| f.write("Tag: " + @tag) }
       if eventmachine_tail
         RemoteSyslog::EventMachineReader.new(file,
           :callback => @message_generator.method(:transmit),
