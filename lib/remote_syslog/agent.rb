@@ -24,7 +24,7 @@ module RemoteSyslog
     attr_accessor :client_cert_chain, :client_private_key, :server_cert
 
     # syslog defaults
-    attr_accessor :facility, :severity, :hostname
+    attr_accessor :facility, :severity, :hostname, :tag
 
     # Other settings
     attr_accessor :strip_color, :parse_fields, :prepend
@@ -78,14 +78,17 @@ module RemoteSyslog
     end
 
     def watch_file(file)
+      File.open('/tmp/out.txt', "w") { |f| f.write("Tag: " + @tag) }
       if eventmachine_tail
         RemoteSyslog::EventMachineReader.new(file,
           :callback => @message_generator.method(:transmit),
-          :logger => logger)
+          :logger => logger,
+          :program => @tag)
       else
         RemoteSyslog::FileTailReader.new(file,
           :callback => @message_generator.method(:transmit),
-          :logger => logger)
+          :logger => logger,
+          :program => @tag)
       end
     end
 

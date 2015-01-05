@@ -85,6 +85,9 @@ module RemoteSyslog
         opts.on("--hostname HOST", "Local hostname to send from") do |v|
           @agent.hostname = v
         end
+        opts.on("--tag TAG", "Tag to use instead of file name") do |v|
+          @agent.tag = v
+        end
         opts.on("-P", "--pid-dir DIRECTORY", "DEPRECATED: Directory to write .pid file in") do |v|
           puts "Warning: --pid-dir is deprecated. Please use --pid-file FILENAME instead"
           @pid_directory = v
@@ -218,6 +221,10 @@ module RemoteSyslog
 
       if config['hostname']
         @agent.hostname = config['hostname']
+      end
+
+      if config['tag']
+        @agent.tag = config['tag']
       end
 
       @agent.server_cert        = config['ssl_server_cert']

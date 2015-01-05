@@ -10,6 +10,7 @@ exclude_files:
   - old
   - 200\d
 hostname: www42  # override OS hostname
+tag: apache # use this instead of the file name as a tag
 parse_fields: syslog   # predefined regex name or double-quoted regex
 prepend: '0xDEADBEEF: '  # prepend this before every log message
 exclude_patterns:
